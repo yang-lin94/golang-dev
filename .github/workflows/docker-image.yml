@@ -1,0 +1,24 @@
+name: Docker Image CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  VERSION: latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ylin94/golang-dev:${{ env.VERSION }}
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Push the Docker image
+      run: docker push ylin94/python_dev:${{ env.VERSION }}
