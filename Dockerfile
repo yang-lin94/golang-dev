@@ -1,4 +1,4 @@
-FROM docker.io/golang:1.22
+FROM docker.io/golang:1.22-bookworm
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     git \
